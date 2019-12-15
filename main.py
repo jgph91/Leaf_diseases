@@ -1,6 +1,7 @@
 from src.image_collector import image_collector
-from src.plotting import plotting
+from src.plotting import plotting_train,confusion_matrix
 import numpy as np
+import json
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
@@ -93,13 +94,7 @@ def main():
     INIT_LR = 1e-3
     BS = 32
     opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-
-    #backup
-
-    filepath="weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
-    checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
-    callbacks_list = [checkpoint]
-    
+   
     #Training the model
 
     model.compile(loss='categorical_crossentropy',
@@ -110,7 +105,7 @@ def main():
     #Checkpoints
     print('[INFO] Saving the best epoch in outputs folder')
 
-    filepath="./Outputs/weights.best.hdf5"
+    filepath="weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
     checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
 
@@ -123,17 +118,16 @@ def main():
     )
 
     #Plotting results of the model
-    plotting(history)
+    plotting_train(history)
 
-    # Accuracy of the model
-    print("[INFO] Calculating model accuracy")
-    scores = model.evaluate(x_test, y_test, verbose=0)
-    print(f"Test Accuracy: {scores[1]*100}")
 
-    matrix = metrics.confusion_matrix(y_test.argmax(axis=1), y_pred.argmax(axis=1))
+    # serialize model to JSON
+    model_json = model.to_json()
+    with open("./Output/model.json", "w") as json_file:
+        json_file.write(model_json)
 
-    
-
+    #confusion matrix
+    confusion_matrix()
 
 if __name__ == '__main__':
     main()
