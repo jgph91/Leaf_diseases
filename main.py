@@ -120,14 +120,15 @@ def main():
     #Plotting results of the model
     plotting_train(history)
 
-
     # serialize model to JSON
     model_json = model.to_json()
     with open("./Output/model.json", "w") as json_file:
         json_file.write(model_json)
 
     #confusion matrix
-    confusion_matrix()
+
+    model_dir = (./)
+    confusion_matrix(model_dir,weights_dir)
 
 if __name__ == '__main__':
     main()
