@@ -29,18 +29,40 @@ def plotting_train(history):
     plt.legend()
     plt.show()
 
-def confusion_matrix(y_test,y_pred,labels):
-    
-    #Confussion matrix
-    ax = plt.subplot()
-    matrix = confusion_matrix(y_test, y_pred, labels=labels)
-    matrix = matrix.astype('float') / matrix.sum(axis=1)[:, np.newaxis]
-    # Plot the matrix
-    sns.heatmap(matrix,annot=True)
-    ax.set_xlabel('Predicted labels')
-    ax.set_ylabel('True labels'); 
-    ax.set_title('Confusion Matrix'); 
-    ax.xaxis.set_ticklabels(labels)
-    ax.yaxis.set_ticklabels(labels)  
+def confusion_matrix(model_dir,weights_dir):
+    '''Creates the confusion matrix'''
+
+    #perform a new test
+    x_train, x_test, y_train, y_test = train_test_split(np_image_list,image_labels, test_size=0.2, random_state=42)
+    # load json and create model
+    json_file = open(model_dir, 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    loaded_model = model_from_json(loaded_model_json)
+    # load weights into new model
+    loaded_model.load_weights(weights_dir)
+    print("Loaded model from disk")
+
+    Y_pred = loaded_model.predict(x_test)
+    Y_true = y_test
+
+
+    Y_pred = loaded_model.predict(x_test)
+    # Convert predictions classes to one hot vectors 
+    Y_pred_classes = np.argmax(Y_pred,axis = 1) 
+    # Convert validation observations to one hot vectors
+    print(Y_pred_classes)
+    Y_true = np.argmax(y_test,axis = 1)
+    print(Y_true)
+    # compute the confusion matrix
+    cm = confusion_matrix(Y_true, Y_pred_classes)
+    cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    # plot the confusion matrix
+    f,ax = plt.subplots(figsize=(8, 8))
+    sns.heatmap(cm, annot=True, linewidths=0.01,cmap="Greens",linecolor="gray", fmt= '.1f',ax=ax)
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.title("Confusion Matrix")
+    plt.show()
 
     return '[INFO] Plotting finished!'
