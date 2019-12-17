@@ -27,7 +27,7 @@ def image_collector(directory_root,images_processed):
 
     image_list, label_list = [], []
     image_size = 0
-    images_processed = 400
+    
 
     try:
         print("[INFO] Loading images ...")

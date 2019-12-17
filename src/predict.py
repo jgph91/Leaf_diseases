@@ -33,4 +33,4 @@ def predict(image_dir,model_dir,weight_dir):
     itemindex = np.where(result==np.max(result))
     print("probability:"+str(np.max(result))+"\n"+CLASSES[itemindex[1][0]])
     return result
-    
+
