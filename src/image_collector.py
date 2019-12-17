@@ -24,10 +24,8 @@ def convert_image_to_array(image_dir):
 def image_collector(directory_root,images_processed):
     '''Return two list: pictures converted and '''
 
-
     image_list, label_list = [], []
     image_size = 0
-    
 
     try:
         print("[INFO] Loading images ...")

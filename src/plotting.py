@@ -45,8 +45,6 @@ def confusion_matrix(model_dir,weights_dir):
 
     Y_pred = loaded_model.predict(x_test)
     Y_true = y_test
-
-
     Y_pred = loaded_model.predict(x_test)
     # Convert predictions classes to one hot vectors 
     Y_pred_classes = np.argmax(Y_pred,axis = 1) 

@@ -1,134 +1,59 @@
-from src.image_collector import image_collector
-from src.plotting import plotting_train,confusion_matrix
+from src.image_collector import convert_image_to_array
 import numpy as np
+import os
 import json
-from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.preprocessing import LabelBinarizer
-from keras.models import Sequential,load_model
-from keras.layers.normalization import BatchNormalization
-from keras.layers.convolutional import Conv2D
-from keras.layers.convolutional import MaxPooling2D
-from keras.layers.core import Activation, Flatten, Dropout, Dense
-from keras import backend as K
+from keras.models import load_model
+from keras.models import model_from_json
 from keras.preprocessing.image import ImageDataGenerator
-from keras.optimizers import Adam
 from keras.preprocessing import image
-from keras.callbacks import ModelCheckpoint
 
-def main():
-
-    directory_root = '../color'
-    images_processed = 400
-    image_size = 0
-    image_list, label_list = image_collector(directory_root,images_processed)
+def predict(image_dir,model_dir,weight_dir):
+    '''Predict the disease of the given photo'''
     
-    # Getting ground truths
-    label_binarizer = LabelBinarizer()
-    image_labels = label_binarizer.fit_transform(label_list)
-    n_classes = len(label_binarizer.classes_)
-    print(label_binarizer.classes_)
-
-    # preprocessing the images
-    np_image_list = np.array(image_list, dtype=np.float16)/255.0  
-
-    print("[INFO] Spliting data to train, test")
-    x_train, x_test, y_train, y_test = train_test_split(np_image_list,image_labels, test_size=0.2, random_state=42)
-
-    # image params
-
-    width = 256
-    height = 256
-    depth = 3
-
-    # performs random picture rotations to increase accuracy of the model using less samples
-    aug = ImageDataGenerator(
-        rotation_range=25, width_shift_range=0.1,
-        height_shift_range=0.1, shear_range=0.2,
-        zoom_range=0.2, horizontal_flip=True,
-        fill_mode="nearest")
-
-    # CNN model
-
-    model = Sequential()
-    inputShape = (height, width, depth)
-    chanDim = -1
-
-    if K.image_data_format() == "channels_first":
-        chanDim = 1
-    model.add(Conv2D(32, (3, 3), padding="same", input_shape=inputShape))
-    model.add(Activation("relu"))
-    model.add(BatchNormalization(axis=chanDim))
-    model.add(MaxPooling2D(pool_size=(3, 3)))
-    model.add(Dropout(0.25))
-    model.add(Conv2D(64, (3, 3), padding="same"))
-    model.add(Activation("relu"))
-    model.add(BatchNormalization(axis=chanDim))
-    model.add(Conv2D(64, (3, 3), padding="same"))
-    model.add(Activation("relu"))
-    model.add(BatchNormalization(axis=chanDim))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    model.add(Conv2D(128, (3, 3), padding="same"))
-    model.add(Activation("relu"))
-    model.add(BatchNormalization(axis=chanDim))
-    model.add(Conv2D(128, (3, 3), padding="same"))
-    model.add(Activation("relu"))
-    model.add(BatchNormalization(axis=chanDim))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    model.add(Flatten())
-    model.add(Dense(1024))
-    model.add(Activation("relu"))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.5))
-    model.add(Dense(n_classes))
-    model.add(Activation("softmax"))
-
-    model.summary()
-
-    # CNN params
-
-    EPOCHS = 100
-    INIT_LR = 1e-3
-    BS = 32
-    opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-   
-    #Training the model
-
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=opt, metrics=['accuracy'])
+    CLASSES = ['Grape___Black_rot', 'Grape___Esca_(Black_Measles)',
+     'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 'Grape___healthy',
+     'Pepper_bell___Bacterial_spot', 'Pepper_bell___healthy',
+     'Tomato___Bacterial_spot', 'Tomato___Early_blight' ,'Tomato___Late_blight',
+     'Tomato___Septoria_leaf_spot', 'Tomato___Target_Spot',
+     'Tomato___Tomato_mosaic_virus', 'Tomato___healthy']
     
-    print("[INFO] training network...")
+    # load json and create model
+    json_file = open(model_dir, 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    loaded_model = model_from_json(loaded_model_json)
+    # load weights into new model
+    loaded_model.load_weights(weight_dir)
+    print("Loaded model from disk")
+    #image processing and recognition
+    
+    image_dir = convert_image_to_array(image_dir)
+    np_image_li = np.array(image_dir, dtype=np.float16) / 255.0
+    npp_image = np.expand_dims(np_image_li, axis=0)
+    result=loaded_model.predict(npp_image)
+    itemindex = np.where(result==np.max(result))
+    print("probability:"+str(np.max(result))+"\n"+CLASSES[itemindex[1][0]])
+    crop_disease = CLASSES[itemindex[1][0]]
+    return crop_disease
 
-    #Checkpoints
-    print('[INFO] Saving the best epoch in outputs folder')
+def crop_disease_transformation(crop_disease):
+    '''Returns crop and disease'''
 
-    filepath="weights-improvement-{epoch:02d}-{val_accuracy:.2f}.hdf5"
-    checkpoint = ModelCheckpoint(filepath, monitor='val_accuracy', verbose=1, save_best_only=True, mode='max')
-    callbacks_list = [checkpoint]
+    transformation = {'Grape___Black_rot': {'crop':'grape','disease':'black_rot'}, 
+               'Grape___Esca_(Black_Measles)':{'crop':'grape','disease':'black_measles'},
+               'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)':{'crop':None,'disease':None},
+               'Grape___healthy':{'crop':None,'disease':None},
+               'Pepper_bell___Bacterial_spot':{'crop':'pepper_bell','disease':'bacteria_spot_pepper'},
+               'Pepper_bell___healthy':{'crop':None,'disease':None},
+               'Tomato___Bacterial_spot':{'crop':'tomato','disease':'bacterial_spot'},
+               'Tomato___Early_blight':{'crop':'tomato','disease':'alternaria_early_blight'} ,
+               'Tomato___Late_blight':{'crop':'tomato','disease':'phytopthora_late_blight'},
+               'Tomato___Septoria_leaf_spot':{'crop':'tomato','disase':'septoria_leaf_spot'},
+               'Tomato___Target_Spot':{'crop':'tomato','disease':'bacterial_spot'},
+               'Tomato___Tomato_mosaic_virus':{'mosaic_virus'},
+               'Tomato___healthy':{'crop':None,'disease':None}}
 
-    #Training params
-    history = model.fit_generator(
-        aug.flow(x_train, y_train, batch_size=BS),
-        validation_data=(x_test, y_test),
-        steps_per_epoch=len(x_train) // BS,
-        epochs=EPOCHS, verbose=1,callbacks=callbacks_list
-    )
+    crop = transformation[crop_disease]['crop']
+    disease = transformation[crop_disease]['disease']
 
-    #Plotting results of the model
-    plotting_train(history)
-
-    # serialize model to JSON
-    model_json = model.to_json()
-    with open("./Output/model.json", "w") as json_file:
-        json_file.write(model_json)
-
-    #confusion matrix
-
-    model_dir = (./)
-    confusion_matrix(model_dir,weights_dir)
-
-if __name__ == '__main__':
-    main()
+    return crop,disease

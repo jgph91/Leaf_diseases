@@ -1,29 +1,22 @@
-from tkinter import *
+import tkinter as tk
+import pygubu
 
 
-root = Tk()
+class Application:
+    def __init__(self, master):
 
-root.title('Main')
+        #1: Create a builder
+        self.builder = builder = pygubu.Builder()
 
-root.resizable(True,True)
+        #2: Load an ui file
+        builder.add_from_file('interface.ui')
 
-#root.iconbitmap("leaf16.ico")
-
-root.config(bg='black')
-
-mainframe = Frame()
-
-mainFrame.pack()
-
-mainFrame.config(bg='green',width='200',height='200')
+        #3: Create the widget using a master as parent
+        self.mainwindow = builder.get_object('mainwindow', master)
 
 
-
-
-
-
-root.mainloop()#infinite loop
-
-
-
+if __name__ == '__main__':
+    root = tk.Tk()
+    app = Application(root)
+    root.mainloop()
 

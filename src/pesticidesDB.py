@@ -30,3 +30,11 @@ df.to_json('./Output/pesticides.json',orient='records')
 with open('./Output/pesticides.json') as f:
     pesticides = json.load(f)
 coll.insert_many(pesticides)'''
+
+def get_pesticides(ai):
+    '''Returns the pesticides which contain the specified ai'''
+
+    results = coll.find({'Ai': ai},{'_id':0,})
+                             
+    return results
+
