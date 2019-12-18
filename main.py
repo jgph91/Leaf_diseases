@@ -1,59 +1,68 @@
-from src.image_collector import convert_image_to_array
-import numpy as np
+from src.webscrap import get_ai
+from src. predict import predict,crop_disease_transformation
+from src.pesticidesDB import get_pesticides
+from tkinter import ttk
+from tkinter.filedialog import askopenfilename
+import pygubu
 import os
-import json
-from keras.models import load_model
-from keras.models import model_from_json
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing import image
+import tkinter as tk
 
-def predict(image_dir,model_dir,weight_dir):
-    '''Predict the disease of the given photo'''
+
+
+class Application:
+    def __init__(self, master):
+
+
+        self.root = tk.Tk()
+        self.root.withdraw()
+
+
+        #1: Create a builder
+        self.builder = builder = pygubu.Builder()
+        self.result = self.builder.get_object('Text_1')
+        self.ai
+        self.pesticides
+
+        #2: Load an ui file
+        builder.add_from_file('interface.ui')
+
+        #3: Create the widget using a master as parent
+        self.mainwindow = builder.get_object('mainwindow', master)
+
+    def click_button_1(self,img_dir):
+        res = predict(img_dir)
+        self.result.configure(text=res)
+        self.root.update_idletasks()
+        
+
+    def click_button_2(self,result):
+
+        crop,disease = crop_disease_transformation(result)
+        ai = get_ai(crop,disease)
+
+        return ai
     
+    def click_button_3(self,ai):
+
+        pesticides = get_pesticides(ai)
+
+        return pesticides
+
     CLASSES = ['Grape___Black_rot', 'Grape___Esca_(Black_Measles)',
      'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 'Grape___healthy',
      'Pepper_bell___Bacterial_spot', 'Pepper_bell___healthy',
      'Tomato___Bacterial_spot', 'Tomato___Early_blight' ,'Tomato___Late_blight',
      'Tomato___Septoria_leaf_spot', 'Tomato___Target_Spot',
      'Tomato___Tomato_mosaic_virus', 'Tomato___healthy']
-    
-    # load json and create model
-    json_file = open(model_dir, 'r')
-    loaded_model_json = json_file.read()
-    json_file.close()
-    loaded_model = model_from_json(loaded_model_json)
-    # load weights into new model
-    loaded_model.load_weights(weight_dir)
-    print("Loaded model from disk")
-    #image processing and recognition
-    
-    image_dir = convert_image_to_array(image_dir)
-    np_image_li = np.array(image_dir, dtype=np.float16) / 255.0
-    npp_image = np.expand_dims(np_image_li, axis=0)
-    result=loaded_model.predict(npp_image)
-    itemindex = np.where(result==np.max(result))
-    print("probability:"+str(np.max(result))+"\n"+CLASSES[itemindex[1][0]])
-    crop_disease = CLASSES[itemindex[1][0]]
-    return crop_disease
 
-def crop_disease_transformation(crop_disease):
-    '''Returns crop and disease'''
 
-    transformation = {'Grape___Black_rot': {'crop':'grape','disease':'black_rot'}, 
-               'Grape___Esca_(Black_Measles)':{'crop':'grape','disease':'black_measles'},
-               'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)':{'crop':None,'disease':None},
-               'Grape___healthy':{'crop':None,'disease':None},
-               'Pepper_bell___Bacterial_spot':{'crop':'pepper_bell','disease':'bacteria_spot_pepper'},
-               'Pepper_bell___healthy':{'crop':None,'disease':None},
-               'Tomato___Bacterial_spot':{'crop':'tomato','disease':'bacterial_spot'},
-               'Tomato___Early_blight':{'crop':'tomato','disease':'alternaria_early_blight'} ,
-               'Tomato___Late_blight':{'crop':'tomato','disease':'phytopthora_late_blight'},
-               'Tomato___Septoria_leaf_spot':{'crop':'tomato','disase':'septoria_leaf_spot'},
-               'Tomato___Target_Spot':{'crop':'tomato','disease':'bacterial_spot'},
-               'Tomato___Tomato_mosaic_virus':{'mosaic_virus'},
-               'Tomato___healthy':{'crop':None,'disease':None}}
 
-    crop = transformation[crop_disease]['crop']
-    disease = transformation[crop_disease]['disease']
 
-    return crop,disease
+
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    app = Application(root)
+    root.mainloop()
+

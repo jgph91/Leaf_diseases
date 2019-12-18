@@ -1,9 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
+from bs4 import BeautifulSoup
+import urllib.request
+import ssl
+
 
 def get_ai(crop,disease):
 
-'''Use selenium for getting an excel with the avialable ai for fighting the specified disease'''
+    '''Use selenium for getting an excel with the avialable ai for fighting the specified disease'''
 
     crop_code = {'tomato':'0104010401010000','pepper_bell':'0104010401020000','grape':'0102020600000000'}
     disease_code = {'septoria_leaf_spot':'275','bacterial_spot':'666','alternaria_early_blight':'11','phytopthora_late_blight': '937',
@@ -31,6 +35,15 @@ def get_ai(crop,disease):
 
     #get excel file
     get_excel_button = driver.find_element_by_name('cd_matr').click()
-    download_excel = driver.find_element_by_css_selector('div:nth-child(8) > ul > li > a').click()
+    url = driver.current_url
+    ssl._create_default_https_context = ssl._create_unverified_context
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+    excel_url = soup.select('div:nth-child(8) > ul > li > a')
+    excel_url = 'https://www.mapa.gob.es'+excel_url[0].attrs['href']
+    response = urllib.request.urlopen(excel_url)
+    data = response.read() 
+    with open('ai_list.xls','wb+') as f:
+        f.write(data)
 
-    return f'Excel file ready for {crop} {disease}!'
+    return f'Ai file ready for {crop} {disease}!'
