@@ -58,7 +58,7 @@
         <child>
           <object class="ttk.Entry" id="Select_disease">
             <property name="text" translatable="yes">Enter Result</property>
-            <bind add="" handler="disease_input" sequence="&lt;1&gt;" />
+            <bind add="" handler="" sequence="&lt;1&gt;" />
             <layout>
               <property name="column">0</property>
               <property name="propagate">True</property>
@@ -83,7 +83,7 @@
             <property name="cursor">arrow</property>
             <property name="text" translatable="yes">Enter Ai</property>
             <layout>
-              <property name="column">0</property>
+              <property name="column">2</property>
               <property name="propagate">True</property>
               <property name="row">0</property>
             </layout>
@@ -116,7 +116,7 @@
     <child>
       <object class="ttk.Frame" id="RESULT_DISEASES">
         <property name="height">200</property>
-        <property name="width">200</property>
+        <property name="width">100</property>
         <layout>
           <property name="column">0</property>
           <property name="propagate">True</property>
@@ -127,7 +127,19 @@
             <property name="anchor">center</property>
             <property name="background">#ffffff</property>
             <property name="relief">ridge</property>
-            <property name="text" translatable="yes">Result</property>
+            <property name="text" translatable="yes">Infected? 
+
+
+
+
+
+
+
+
+
+
+
+</property>
             <property name="width">50</property>
             <layout>
               <property name="column">0</property>
@@ -151,37 +163,24 @@
           <object class="ttk.Label" id="resultpesticide">
             <property name="anchor">center</property>
             <property name="background">#ffffff</property>
-            <property name="justify">left</property>
-            <property name="text" translatable="yes">Result pesticides</property>
+            <property name="text" translatable="yes">Result pesticides
+
+
+
+
+
+
+
+
+
+
+</property>
             <property name="width">50</property>
+            <property name="wraplength">200</property>
             <layout>
               <property name="column">0</property>
               <property name="propagate">True</property>
               <property name="row">0</property>
-            </layout>
-          </object>
-        </child>
-      </object>
-    </child>
-    <child>
-      <object class="ttk.Frame" id="RESULT_AI">
-        <property name="height">200</property>
-        <property name="width">200</property>
-        <layout>
-          <property name="column">1</property>
-          <property name="propagate">True</property>
-          <property name="row">2</property>
-        </layout>
-        <child>
-          <object class="ttk.Label" id="resultai">
-            <property name="anchor">center</property>
-            <property name="background">#ffffff</property>
-            <property name="text" translatable="yes">Result Ai</property>
-            <property name="width">50</property>
-            <layout>
-              <property name="column">2</property>
-              <property name="propagate">True</property>
-              <property name="row">1</property>
             </layout>
           </object>
         </child>

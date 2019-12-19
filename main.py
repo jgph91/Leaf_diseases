@@ -31,7 +31,6 @@ class Application:
     
         
     def image_selector(self, event=None):
-
         '''Select image of the leaf'''
         
         self.imagepath = self.filepath.cget('path')
@@ -39,7 +38,6 @@ class Application:
         self.root.update_idletasks()
 
     def click_disease(self):
-
         '''Applies the predictor to the specified image'''
         
         res = predict(self.imagepath)
@@ -47,32 +45,34 @@ class Application:
         self.root.update_idletasks()
     
     def disease_input(self):
-
         '''Select the disease'''
 
-        entry = self.builder.get_object('Select_disease')
-        self.disease = self.entry.cget('text')
+        self.entry = self.builder.get_object('Select_disease')
+        self.disease = self.entry.get()
         self.root.update_idletasks()
         
 
     def click_ai(self):
-
         '''Returns an excel file with the available Ai's'''
 
+        self.disease_input()
         crop,disease = crop_disease_transformation(self.disease)
         get_ai(crop,disease)
         self.root.update_idletasks()
 
 
-    ########################################################################################
     def insert_ai(self):
         '''Select the Ai'''
+
+        self.entry2 = self.builder.get_object('query_pesticides')
+        self.ai = self.entry2.get()
         self.root.update_idletasks()
-        
+    
 
     def click_pesticides(self):
         '''Returns the list of available pesticides for the specified Ai'''
         
+        self.insert_ai()
         pesticides = get_pesticides(self.ai)
         self.pesticides.configure(text=pesticides)
         self.root.update_idletasks()

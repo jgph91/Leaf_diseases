@@ -34,6 +34,6 @@ coll.insert_many(pesticides)'''
 def get_pesticides(ai):
     '''Returns the pesticides which contain the specified ai'''
 
-    results = list(coll.find({'Ai': ai},{'_id':0,}))
+    results = list(coll.find({'Ai': ai},{'_id':0,'Ai':0,'No':0}))
                              
     return results

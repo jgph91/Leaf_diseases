@@ -50,7 +50,7 @@ def crop_disease_transformation(crop_disease):
                'Tomato___Late_blight':{'crop':'tomato','disease':'phytopthora_late_blight'},
                'Tomato___Septoria_leaf_spot':{'crop':'tomato','disase':'septoria_leaf_spot'},
                'Tomato___Target_Spot':{'crop':'tomato','disease':'bacterial_spot'},
-               'Tomato___Tomato_mosaic_virus':{'mosaic_virus'},
+               'Tomato___Tomato_mosaic_virus':{'crop':'tomato','disease':'mosaic_virus'},
                'Tomato___healthy':{'crop':None,'disease':None}}
 
     crop = transformation[crop_disease]['crop']
