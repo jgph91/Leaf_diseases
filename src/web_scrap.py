@@ -43,7 +43,8 @@ def get_ai(crop,disease):
     excel_url = 'https://www.mapa.gob.es'+excel_url[0].attrs['href']
     response = urllib.request.urlopen(excel_url)
     data = response.read() 
+    driver.quit()
     with open('ai_list.xls','wb+') as f:
         f.write(data)
 
-    return f'Ai file ready for {crop} {disease}!'
+    return f'Ai file for {crop} {disease} downloaded!'

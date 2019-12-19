@@ -9,9 +9,10 @@
       <property name="row">0</property>
     </layout>
     <child>
-      <object class="ttk.Button" id="Button_1">
-        <property name="command">click_button_1</property>
+      <object class="ttk.Button" id="Button_disease">
+        <property name="command">click_disease</property>
         <property name="text" translatable="yes">Run </property>
+        <bind add="True" handler="image_selector" sequence="&lt;&lt;PathChooserPathChanged&gt;&gt;" />
         <layout>
           <property name="column">0</property>
           <property name="propagate">True</property>
@@ -20,7 +21,7 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Labelframe" id="diseases">
+      <object class="ttk.Labelframe" id="DISEASE">
         <property name="height">200</property>
         <property name="text" translatable="yes">Diseases recognition
 </property>
@@ -31,8 +32,10 @@
           <property name="row">0</property>
         </layout>
         <child>
-          <object class="pygubu.builder.widgets.pathchooserinput" id="pathchooserinput_1">
+          <object class="pygubu.builder.widgets.pathchooserinput" id="filepath">
+            <property name="textvariable">string:Insert your picture</property>
             <property name="type">file</property>
+            <bind add="" handler="image_selector" sequence="&lt;&lt;PathChooserPathChanged&gt;&gt;" />
             <layout>
               <property name="column">0</property>
               <property name="propagate">True</property>
@@ -43,9 +46,9 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Labelframe" id="ais">
+      <object class="ttk.Labelframe" id="AI">
         <property name="height">200</property>
-        <property name="text" translatable="yes">Select disease</property>
+        <property name="text" translatable="yes">Ai available</property>
         <property name="width">200</property>
         <layout>
           <property name="column">1</property>
@@ -53,9 +56,9 @@
           <property name="row">0</property>
         </layout>
         <child>
-          <object class="ttk.Treeview" id="Labels">
-            <property name="selectmode">extended</property>
-            <property name="show">tree</property>
+          <object class="ttk.Entry" id="Select_disease">
+            <property name="text" translatable="yes">Enter Result</property>
+            <bind add="" handler="disease_input" sequence="&lt;1&gt;" />
             <layout>
               <property name="column">0</property>
               <property name="propagate">True</property>
@@ -66,7 +69,7 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Labelframe" id="pesticides">
+      <object class="ttk.Labelframe" id="PESTICIDE">
         <property name="height">200</property>
         <property name="text" translatable="yes">Search pesticides by Ai</property>
         <property name="width">200</property>
@@ -76,8 +79,9 @@
           <property name="row">0</property>
         </layout>
         <child>
-          <object class="ttk.Entry" id="Entry_1">
+          <object class="ttk.Entry" id="query_pesticides">
             <property name="cursor">arrow</property>
+            <property name="text" translatable="yes">Enter Ai</property>
             <layout>
               <property name="column">0</property>
               <property name="propagate">True</property>
@@ -88,8 +92,8 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Button" id="Button_4">
-        <property name="command">click_button_2</property>
+      <object class="ttk.Button" id="Button_ai">
+        <property name="command">click_ai</property>
         <property name="text" translatable="yes">Search Ai in MAGRAMA</property>
         <layout>
           <property name="column">1</property>
@@ -99,8 +103,8 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Button" id="Button_5">
-        <property name="command">click_button_3</property>
+      <object class="ttk.Button" id="Button_pesticide">
+        <property name="command">click_pesticides</property>
         <property name="text" translatable="yes">Search in DB</property>
         <layout>
           <property name="column">2</property>
@@ -110,7 +114,7 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Frame" id="Terminal">
+      <object class="ttk.Frame" id="RESULT_DISEASES">
         <property name="height">200</property>
         <property name="width">200</property>
         <layout>
@@ -119,11 +123,11 @@
           <property name="row">2</property>
         </layout>
         <child>
-          <object class="tk.Text" id="Text_1">
-            <property name="height">10</property>
-            <property name="setgrid">false</property>
-            <property name="text" translatable="yes">Text_1</property>
-            <property name="undo">true</property>
+          <object class="ttk.Label" id="resultdisease">
+            <property name="anchor">center</property>
+            <property name="background">#ffffff</property>
+            <property name="relief">ridge</property>
+            <property name="text" translatable="yes">Result</property>
             <property name="width">50</property>
             <layout>
               <property name="column">0</property>
@@ -135,7 +139,7 @@
       </object>
     </child>
     <child>
-      <object class="ttk.Frame" id="Frame_2">
+      <object class="ttk.Frame" id="RESULT_PESTICIDES">
         <property name="height">200</property>
         <property name="width">200</property>
         <layout>
@@ -144,14 +148,40 @@
           <property name="row">2</property>
         </layout>
         <child>
-          <object class="tk.Text" id="Text_2">
-            <property name="height">10</property>
-            <property name="text" translatable="yes">Text_2</property>
+          <object class="ttk.Label" id="resultpesticide">
+            <property name="anchor">center</property>
+            <property name="background">#ffffff</property>
+            <property name="justify">left</property>
+            <property name="text" translatable="yes">Result pesticides</property>
             <property name="width">50</property>
             <layout>
               <property name="column">0</property>
               <property name="propagate">True</property>
               <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Frame" id="RESULT_AI">
+        <property name="height">200</property>
+        <property name="width">200</property>
+        <layout>
+          <property name="column">1</property>
+          <property name="propagate">True</property>
+          <property name="row">2</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="resultai">
+            <property name="anchor">center</property>
+            <property name="background">#ffffff</property>
+            <property name="text" translatable="yes">Result Ai</property>
+            <property name="width">50</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
             </layout>
           </object>
         </child>
