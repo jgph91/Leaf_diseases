@@ -17,7 +17,7 @@ Also it shows you the available pesticides in Spain the fight the specified dise
 
 ## Used technologies in this project
 
-I used keras in Google Colaboratory for the CNN training used for the diseases recognition system. For the web scraping tasks I used Selenium with Opera web browser, the pesticides database I built it with MongoDB Atlas and finally the app interface was designed using Tkinter+pygubu.    
+I used keras in Google Colaboratory for the CNN training used for the diseases recognition system. For the web scraping tasks I used Selenium with Opera web browser, the pesticides database I built it with MongoDB Atlas (Cloud) and the gui was designed using Tkinter+pygubu.    
 
 ## Files included
 
