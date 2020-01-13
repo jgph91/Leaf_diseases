@@ -1,4 +1,4 @@
-# Plant-diseases-recognition
+# Plant diseases identifier
 
 Welcome to my final project for the data analytics bootcamp!  
 
@@ -9,6 +9,9 @@ This app recognise the following diseases using a picture of a leaf:
 
 Also it shows you the available pesticides in Spain the fight the specified disease.  
 
+<a href="https://github.com/jgph91"><img src="./input/CNN.png" title="Classes" alt="CNN"></a>
+<!-- [![Shark attacks]("./input/CNN.png")](https://github.com/jgph91) -->
+
 ## How to use this app
 
 1- Insert the leaf picture in the app.
@@ -17,7 +20,10 @@ Also it shows you the available pesticides in Spain the fight the specified dise
 
 ## Used technologies in this project
 
-I used keras in Google Colaboratory for the CNN training used for the diseases recognition system. For the web scraping tasks I used Selenium with Opera web browser, the pesticides database I built it with MongoDB Atlas (Cloud) and the gui was designed using Tkinter+pygubu.    
+I used keras in Google Colaboratory for the CNN training used for the diseases recognition system. For the web scraping tasks I used Selenium with Opera web browser, the pesticides database I built it with MongoDB Atlas (Cloud) and the gui was designed using Tkinter+pygubu.
+
+<a href="https://github.com/jgph91"><img src="./input/project.png" title="Classes" alt="CNN"></a>
+<!-- [![Shark attacks]("./input/project.png")](https://github.com/jgph91) -->
 
 ## Files included
 
