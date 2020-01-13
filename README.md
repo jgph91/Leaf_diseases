@@ -22,7 +22,7 @@ Also it shows you the available pesticides in Spain the fight the specified dise
 
 I used keras in Google Colaboratory for the CNN training used for the diseases recognition system. For the web scraping tasks I used Selenium with Opera web browser, the pesticides database I built it with MongoDB Atlas (Cloud) and the gui was designed using Tkinter+pygubu.
 
-<a href="https://github.com/jgph91"><img src="./input/project.png" title="Classes" alt="CNN"></a>
+<a href="https://github.com/jgph91"><img src="./input/project.png" title="Project" alt="prject"></a>
 <!-- [![Shark attacks]("./input/project.png")](https://github.com/jgph91) -->
 
 ## Files included
