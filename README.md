@@ -21,8 +21,15 @@ I used keras in Google Colaboratory for the CNN training used for the diseases r
 
 ## Files included
 
-- CNN.py -> CNN training + training plots display and confusion matrix.  
-- main.py -> predictions function using the trained model.  
-- requeriments.txt -> md file containing all the modules used in this app.
-- colab folder -> CNN training + confusion matrix creation.  
-- src -> auxiliaries py's containing the functions used in the app and in the CNN train.
+- `CNN.py` -> CNN training + training plots display and confusion matrix.  
+- `main.py` -> predictions function using the trained model.  
+- `requeriments.txt` -> md file containing all the modules used in this app.
+- `colab` -> CNN training + confusion matrix creation.  
+- `src` -> auxiliary py's containing the functions used in the app and in the CNN train.
+
+## Contact info
+
+If you have any doubt please don't heisitate to contact me:
+
+- email : jgph91@gmail.com
+- linkedin:  <a href="https://www.linkedin.com/in/javier-gomez-del-pulgar/?locale=en_US">Javier Gómez del Pulgar</a>
