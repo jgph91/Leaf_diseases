@@ -10,20 +10,20 @@ from keras.preprocessing import image
 def predict(image_dir):
     '''Predict the disease of the given photo'''
     
-    CLASSES = ['Grape___Black_rot', 'Grape___Esca_(Black_Measles)',
-     'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)', 'Grape___healthy',
-     'Pepper_bell___Bacterial_spot', 'Pepper_bell___healthy',
-     'Tomato___Bacterial_spot', 'Tomato___Early_blight' ,'Tomato___Late_blight',
-     'Tomato___Septoria_leaf_spot', 'Tomato___Target_Spot',
-     'Tomato___Tomato_mosaic_virus', 'Tomato___healthy']
+    CLASSES = ['Grape_Black_rot', 'Grape_Black_Measles',
+     'Grape_Leaf_blight', 'Grape_healthy',
+     'Pepper_bell_Bacterial_spot', 'Pepper_bell_healthy',
+     'Tomato_Bacterial_spot', 'Tomato_Early_blight' ,'Tomato_Late_blight',
+     'Tomato_Septoria_leaf_spot', 'Tomato_Target_Spot',
+     'Tomato_mosaic_virus', 'Tomato_healthy']
     
     # load json and create model
-    json_file = open('./Output/model.json', 'r')
+    json_file = open('./output/model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model.load_weights('./Output/weights-improvement-70-0.97.hdf5')
+    loaded_model.load_weights('./output/weights-improvement-70-0.97.hdf5')
     print("Loaded model from disk")
     #image processing and recognition
     
@@ -39,19 +39,19 @@ def predict(image_dir):
 def crop_disease_transformation(crop_disease):
     '''Returns crop and disease'''
 
-    transformation = {'Grape___Black_rot': {'crop':'grape','disease':'black_rot'}, 
-               'Grape___Esca_(Black_Measles)':{'crop':'grape','disease':'black_measles'},
-               'Grape___Leaf_blight_(Isariopsis_Leaf_Spot)':{'crop':None,'disease':None},
-               'Grape___healthy':{'crop':None,'disease':None},
-               'Pepper_bell___Bacterial_spot':{'crop':'pepper_bell','disease':'bacteria_spot_pepper'},
-               'Pepper_bell___healthy':{'crop':None,'disease':None},
-               'Tomato___Bacterial_spot':{'crop':'tomato','disease':'bacterial_spot'},
-               'Tomato___Early_blight':{'crop':'tomato','disease':'alternaria_early_blight'} ,
-               'Tomato___Late_blight':{'crop':'tomato','disease':'phytopthora_late_blight'},
-               'Tomato___Septoria_leaf_spot':{'crop':'tomato','disase':'septoria_leaf_spot'},
-               'Tomato___Target_Spot':{'crop':'tomato','disease':'bacterial_spot'},
-               'Tomato___Tomato_mosaic_virus':{'crop':'tomato','disease':'mosaic_virus'},
-               'Tomato___healthy':{'crop':None,'disease':None}}
+    transformation = {'Grape_Black_rot': {'crop':'grape','disease':'black_rot'}, 
+               'Grape_Black_Measles':{'crop':'grape','disease':'black_measles'},
+               'Grape_Leaf_blight':{'crop':None,'disease':None},
+               'Grape_healthy':{'crop':None,'disease':None},
+               'Pepper_bell_Bacterial_spot':{'crop':'pepper_bell','disease':'bacteria_spot_pepper'},
+               'Pepper_bell_healthy':{'crop':None,'disease':None},
+               'Tomato_Bacterial_spot':{'crop':'tomato','disease':'bacterial_spot'},
+               'Tomato_Early_blight':{'crop':'tomato','disease':'alternaria_early_blight'} ,
+               'Tomato_Late_blight':{'crop':'tomato','disease':'phytopthora_late_blight'},
+               'Tomato_Septoria_leaf_spot':{'crop':'tomato','disase':'septoria_leaf_spot'},
+               'Tomato_Target_Spot':{'crop':'tomato','disease':'bacterial_spot'},
+               'Tomato_mosaic_virus':{'crop':'tomato','disease':'mosaic_virus'},
+               'Tomato_healthy':{'crop':None,'disease':None}}
 
     crop = transformation[crop_disease]['crop']
     disease = transformation[crop_disease]['disease']

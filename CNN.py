@@ -120,7 +120,7 @@ plotting_train(history)
 
 # serialize model to JSON
 model_json = model.to_json()
-with open("./Output/model.json", "w") as json_file:
+with open("./output/model.json", "w") as json_file:
     json_file.write(model_json)
 
 #confusion matrix
