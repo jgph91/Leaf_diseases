@@ -1,23 +1,21 @@
-from src.image_collector import image_collector
-from src.plotting import plotting_train,confusion_matrix
 import numpy as np
-import json
-from sklearn.metrics import confusion_matrix
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.preprocessing import LabelBinarizer
-from keras.models import Sequential,load_model
-from keras.layers.normalization import BatchNormalization
+from keras import backend as K
+from keras.callbacks import ModelCheckpoint
 from keras.layers.convolutional import Conv2D
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.core import Activation, Flatten, Dropout, Dense
-from keras import backend as K
-from keras.preprocessing.image import ImageDataGenerator
+from keras.layers.normalization import BatchNormalization
+from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.preprocessing import image
-from keras.callbacks import ModelCheckpoint
+from keras.preprocessing.image import ImageDataGenerator
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelBinarizer
+from src.image_collector import image_collector
+from src.plotting import plotting_train
 
-directory_root = '../color'
+#training dir
+directory_root = 'input/train'
 images_processed = 400
 image_size = 0
 image_list, label_list = image_collector(directory_root,images_processed)
@@ -125,6 +123,6 @@ with open("./output/model.json", "w") as json_file:
 
 #confusion matrix
 
-model_dir = (./)
+model_dir = ('./')
 confusion_matrix(model_dir,weights_dir)
 

@@ -1,11 +1,7 @@
-from src.image_collector import convert_image_to_array
 import numpy as np
-import os
-import json
-from keras.models import load_model
 from keras.models import model_from_json
-from keras.preprocessing.image import ImageDataGenerator
-from keras.preprocessing import image
+from src.image_collector import convert_image_to_array
+
 
 def predict(image_dir):
     '''Predict the disease of the given photo'''

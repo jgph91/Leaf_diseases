@@ -1,8 +1,6 @@
-from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
-import pandas as pd
-import json
+from pymongo import MongoClient
 
 # Get Password
 load_dotenv()

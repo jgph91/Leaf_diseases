@@ -1,10 +1,8 @@
 from os import listdir
 import cv2
 import numpy as np
-import pickle
 from keras.preprocessing.image import img_to_array
-from sklearn.preprocessing import MultiLabelBinarizer
-from sklearn.preprocessing import LabelBinarizer
+
 
 def convert_image_to_array(image_dir):
     '''Transform a picture into an array'''
