@@ -9,7 +9,7 @@ def get_ai(crop,disease):
 
     '''Use selenium for getting an excel with the avialable ai for fighting the specified disease'''
 
-    crop_code = {'tomato':'0104010401010000','pepper_bell':'0104010401020000','grape':'0102020600000000'}
+    crop_code = {'tomato':'0103010301000000','pepper_bell':'0103010302000000','grape':'0101020701000000'}
     disease_code = {'septoria_leaf_spot':'275','bacterial_spot':'666','alternaria_early_blight':'11','phytopthora_late_blight': '937',
     'mosaic_virus':'754','black_rot':'233','black_measles':'441','bacteria_spot_pepper':'417'}
 

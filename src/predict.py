@@ -44,7 +44,7 @@ def crop_disease_transformation(crop_disease):
                'Tomato_Bacterial_spot':{'crop':'tomato','disease':'bacterial_spot'},
                'Tomato_Early_blight':{'crop':'tomato','disease':'alternaria_early_blight'} ,
                'Tomato_Late_blight':{'crop':'tomato','disease':'phytopthora_late_blight'},
-               'Tomato_Septoria_leaf_spot':{'crop':'tomato','disase':'septoria_leaf_spot'},
+               'Tomato_Septoria_leaf_spot':{'crop':'tomato','disease':'septoria_leaf_spot'},
                'Tomato_Target_Spot':{'crop':'tomato','disease':'bacterial_spot'},
                'Tomato_mosaic_virus':{'crop':'tomato','disease':'mosaic_virus'},
                'Tomato_healthy':{'crop':None,'disease':None}}
